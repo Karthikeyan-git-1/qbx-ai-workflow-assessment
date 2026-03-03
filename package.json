@@ -1,0 +1,14 @@
+{
+  "name": "automation-agentic-n8n-eval",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Agentic + n8n-style workflow evaluation (Node.js)",
+  "scripts": {
+    "start": "node src/index.js --workflow workflow/workflow.json --in data/tickets.json --out output/result.json",
+    "test": "jest --runInBand"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

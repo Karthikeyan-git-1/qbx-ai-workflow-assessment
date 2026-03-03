@@ -1,0 +1,30 @@
+# Node
+node_modules/
+package-lock.json
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Output artifacts
+output/result.json
+
+# Coverage (if enabled later)
+coverage/
+
+# Environment files
+.env
+.env.local
+
+# Temporary files
+*.tmp
+*.swp
+
+# IDE files
+.idea
