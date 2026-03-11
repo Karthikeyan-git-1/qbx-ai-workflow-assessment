@@ -14,8 +14,27 @@ const { isValidToolCall, isValidFinal } = require("./llm/schema");
  * - "PROMPT_INJECTION"
  */
 function detectPromptInjection(text) {
-  // TODO
-  return [];
+  if (!text) return [];
+
+  const lower = text.toLowerCase();
+
+  const patterns = [
+    "ignore previous instructions",
+    "reveal secrets",
+    "override policy",
+    "send confidential"
+  ];
+
+  const issues = [];
+
+  for (const p of patterns) {
+    if (lower.includes(p)) {
+      issues.push("PROMPT_INJECTION");
+      break;
+    }
+  }
+
+  return issues;
 }
 
 /**
@@ -24,9 +43,10 @@ function detectPromptInjection(text) {
  * Return true if allowed, false otherwise.
  */
 function enforceToolAllowlist(toolName, allowedTools) {
-  // TODO
-  return false;
+  if (!toolName || !allowedTools) return false;
+  return allowedTools.includes(toolName);
 }
+
 
 /**
  * validateLlmResponse(obj)
@@ -37,9 +57,18 @@ function enforceToolAllowlist(toolName, allowedTools) {
  * - { ok: false, reason: string } otherwise
  */
 function validateLlmResponse(obj) {
-  // TODO
-  if (isValidToolCall(obj)) return { ok: true, type: "tool_call" };
-  if (isValidFinal(obj)) return { ok: true, type: "final" };
+  if (!obj || typeof obj !== "object") {
+    return { ok: false, reason: "Invalid response format" };
+  }
+
+  if (isValidToolCall(obj)) {
+    return { ok: true, type: "tool_call" };
+  }
+
+  if (isValidFinal(obj)) {
+    return { ok: true, type: "final" };
+  }
+
   return { ok: false, reason: "Invalid LLM response schema" };
 }
 
